@@ -53,32 +53,67 @@ def main():
     open(os.path.join(HERE, "preview.svg"), "w").write(to_svg(out))
     print(re.sub(r"\x1b\[[0-9;]*m", "", out))
 
-FG, DIM_OPACITY, CW, LH, PAD = "#d4d4d4", 0.55, 8.43, 22, 14
+FG, DIM_OPACITY, CW, LH, PAD = "#d4d4d4", 0.55, 8.4, 22, 14
+# Bar cells are drawn as rectangles on the column grid rather than as glyphs:
+# few monospace fonts carry the block characters, so a browser falls back to a
+# font with other widths and the bars come out seamed, dithered and misaligned.
+BAR_H, SHADE_OPACITY, TICK_W = 14, 0.22, 2
+
+def cells(line):
+    """ANSI (24-bit fg, dim, reset) -> [(char, fill, dim)], one per column."""
+    fill, dim, out = FG, False, []
+    for tok in re.split(r"(\x1b\[[0-9;]*m)", line):
+        if tok.startswith("\x1b["):
+            codes = tok[2:-1].split(";")
+            if codes[:2] == ["38", "2"] and len(codes) == 5:
+                fill = "#%02x%02x%02x" % tuple(int(c) for c in codes[2:5])
+            elif codes == ["2"]:
+                dim = True
+            elif codes in (["0"], [""]):
+                fill, dim = FG, False
+        else:
+            out.extend((ch, fill, dim) for ch in tok)
+    return out
 
 def to_svg(text):
-    """ANSI (24-bit fg, dim, reset) -> SVG text with one tspan per run."""
-    lines = text.split("\n")
-    width = max(len(re.sub(r"\x1b\[[0-9;]*m", "", l)) for l in lines)
-    w, h = int(width * CW + 2 * PAD), len(lines) * LH + 2 * PAD - 4
+    """Every text run is pinned to its column (x + textLength), so a fallback
+    glyph cannot push the rest of the line off the grid."""
+    rows = [cells(l) for l in text.split("\n")]
+    width = max(len(r) for r in rows)
+    w, h = round(width * CW + 2 * PAD), len(rows) * LH + 2 * PAD - 4
     body = []
-    for i, line in enumerate(lines):
-        fill, dim, spans = FG, False, []
-        for tok in re.split(r"(\x1b\[[0-9;]*m)", line):
-            if not tok:
+    for i, row in enumerate(rows):
+        base = PAD + LH * (i + 1) - 6
+        top = base - BAR_H + 3
+        col = 0
+        while col < len(row):
+            ch, fill, dim = row[col]
+            x = PAD + col * CW
+            op = ' opacity="%s"' % DIM_OPACITY if dim else ""
+            if ch in "\u2588\u2591":
+                # One rect per same-colored run: abutting translucent cells
+                # would stripe where they overlap.
+                end = col
+                while end < len(row) and row[end] == row[col]:
+                    end += 1
+                if ch == "\u2591":
+                    op = ' opacity="%s"' % SHADE_OPACITY
+                body.append('<rect x="%.1f" y="%d" width="%.1f" height="%d" fill="%s"%s/>' % (x, top, (end - col) * CW, BAR_H, fill, op))
+                col = end
                 continue
-            if tok.startswith("\x1b["):
-                codes = tok[2:-1].split(";")
-                if codes[:2] == ["38", "2"] and len(codes) == 5:
-                    fill = "#%02x%02x%02x" % tuple(int(c) for c in codes[2:5])
-                elif codes == ["2"]:
-                    dim = True
-                elif codes in (["0"], [""]):
-                    fill, dim = FG, False
+            elif ch == "\u2502":
+                body.append('<rect x="%.1f" y="%d" width="%d" height="%d" fill="%s"%s/>' % (x + (CW - TICK_W) / 2, top - 2, TICK_W, BAR_H + 4, fill, op))
+            else:
+                end = col
+                while end < len(row) and row[end][1:] == (fill, dim) and row[end][0] not in "\u2588\u2591\u2502":
+                    end += 1
+                run = "".join(c[0] for c in row[col:end])
+                if run.strip():
+                    body.append('<text x="%.1f" y="%d" textLength="%.1f" lengthAdjust="spacingAndGlyphs" fill="%s"%s xml:space="preserve">%s</text>'
+                                % (x, base, (end - col) * CW, fill, op, html.escape(run)))
+                col = end
                 continue
-            attrs = ' fill="%s"' % fill + (' opacity="%s"' % DIM_OPACITY if dim else "")
-            spans.append("<tspan%s>%s</tspan>" % (attrs, html.escape(tok)))
-        y = PAD + LH * (i + 1) - 6
-        body.append('<text x="%d" y="%d" xml:space="preserve">%s</text>' % (PAD, y, "".join(spans)))
+            col += 1
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" '
             'font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">\n'
             '<rect width="100%%" height="100%%" rx="8" fill="#1e1e1e"/>\n%s\n</svg>\n') % (w, h, w, h, "\n".join(body))

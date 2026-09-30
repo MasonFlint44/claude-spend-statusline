@@ -1,5 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="997" height="68" viewBox="0 0 997 68" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+<svg xmlns="http://www.w3.org/2000/svg" width="994" height="68" viewBox="0 0 994 68" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
 <rect width="100%" height="100%" rx="8" fill="#1e1e1e"/>
-<text x="14" y="30" xml:space="preserve"><tspan fill="#d4d4d4">Opus </tspan><tspan fill="#d4d4d4" opacity="0.55">·</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#fab219">high</tspan><tspan fill="#d4d4d4"> | ctx:</tspan><tspan fill="#e3b324">█████</tspan><tspan fill="#d4d4d4">░░░░░░ 43% </tspan><tspan fill="#d4d4d4" opacity="0.55">$3.72</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#d4d4d4" opacity="0.55">·</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#d4d4d4" opacity="0.55">cache 42m</tspan><tspan fill="#d4d4d4"> | day:</tspan><tspan fill="#fb962c">███████</tspan><tspan fill="#d4d4d4">░░░░ 64% </tspan><tspan fill="#d4d4d4" opacity="0.55">$9.40/$15</tspan><tspan fill="#d4d4d4"> month:</tspan><tspan fill="#cdb42f">██</tspan><tspan fill="#d4d4d4">│</tspan><tspan fill="#cdb42f">█</tspan><tspan fill="#d4d4d4">░░░░░░░ 36% </tspan><tspan fill="#d4d4d4" opacity="0.55">$143/$400</tspan></text>
-<text x="14" y="52" xml:space="preserve"><tspan fill="#d4d4d4" opacity="0.55">~/claude-spend-statusline</tspan><tspan fill="#d4d4d4"> ⎇  feature/preview </tspan><tspan fill="#d4d4d4" opacity="0.55">·</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#d4d4d4" opacity="0.55">pending</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#6bb85f">+16</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#d4d4d4" opacity="0.55">· vs main</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#d4d4d4" opacity="0.55">+30</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#d4d4d4" opacity="0.55">· session</tspan><tspan fill="#d4d4d4"> </tspan><tspan fill="#d4d4d4" opacity="0.55">+118</tspan><tspan fill="#d4d4d4" opacity="0.55">/</tspan><tspan fill="#d4d4d4" opacity="0.55">-27</tspan></text>
+<text x="14.0" y="30" textLength="42.0" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve">Opus </text>
+<text x="56.0" y="30" textLength="8.4" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">·</text>
+<text x="72.8" y="30" textLength="33.6" lengthAdjust="spacingAndGlyphs" fill="#fab219" xml:space="preserve">high</text>
+<text x="106.4" y="30" textLength="58.8" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve"> | ctx:</text>
+<rect x="165.2" y="19" width="42.0" height="14" fill="#e3b324"/>
+<rect x="207.2" y="19" width="50.4" height="14" fill="#d4d4d4" opacity="0.22"/>
+<text x="257.6" y="30" textLength="42.0" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve"> 43% </text>
+<text x="299.6" y="30" textLength="42.0" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">$3.72</text>
+<text x="350.0" y="30" textLength="8.4" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">·</text>
+<text x="366.8" y="30" textLength="75.6" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">cache 42m</text>
+<text x="442.4" y="30" textLength="58.8" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve"> | day:</text>
+<rect x="501.2" y="19" width="58.8" height="14" fill="#fb962c"/>
+<rect x="560.0" y="19" width="33.6" height="14" fill="#d4d4d4" opacity="0.22"/>
+<text x="593.6" y="30" textLength="42.0" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve"> 64% </text>
+<text x="635.6" y="30" textLength="75.6" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">$9.40/$15</text>
+<text x="711.2" y="30" textLength="58.8" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve"> month:</text>
+<rect x="770.0" y="19" width="16.8" height="14" fill="#cdb42f"/>
+<rect x="790.0" y="17" width="2" height="18" fill="#d4d4d4"/>
+<rect x="795.2" y="19" width="8.4" height="14" fill="#cdb42f"/>
+<rect x="803.6" y="19" width="58.8" height="14" fill="#d4d4d4" opacity="0.22"/>
+<text x="862.4" y="30" textLength="42.0" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve"> 36% </text>
+<text x="904.4" y="30" textLength="75.6" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">$143/$400</text>
+<text x="14.0" y="52" textLength="210.0" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">~/claude-spend-statusline</text>
+<text x="224.0" y="52" textLength="168.0" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" xml:space="preserve"> ⎇  feature/preview </text>
+<text x="392.0" y="52" textLength="8.4" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">·</text>
+<text x="408.8" y="52" textLength="58.8" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">pending</text>
+<text x="476.0" y="52" textLength="25.2" lengthAdjust="spacingAndGlyphs" fill="#6bb85f" xml:space="preserve">+16</text>
+<text x="509.6" y="52" textLength="75.6" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">· vs main</text>
+<text x="593.6" y="52" textLength="25.2" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">+30</text>
+<text x="627.2" y="52" textLength="75.6" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">· session</text>
+<text x="711.2" y="52" textLength="67.2" lengthAdjust="spacingAndGlyphs" fill="#d4d4d4" opacity="0.55" xml:space="preserve">+118/-27</text>
 </svg>
