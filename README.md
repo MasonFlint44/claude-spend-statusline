@@ -7,11 +7,6 @@ in `config/display.conf` (see [Elements](#elements)).
 
 ![the statusline as rendered in a terminal](docs/preview.svg)
 
-```
-Opus · high | ctx:█████░░░░░░ 43% $3.72 · cache 42m | day:███████░░░░ 64% $9.40/$15 month:██│█░░░░░░░ 36% $143/$400
-~/claude-spend-statusline ⎇  feature/preview · pending +16 · vs main +30 · session +118/-27
-```
-
 A Friday afternoon: $9.40 of today's $15 allowance spent, $143 of the $400
 month, and the light tick in the month bar says the month's workdays are a
 fifth gone, so the fill just past it is a little ahead of pace. The
