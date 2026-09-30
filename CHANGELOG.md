@@ -4,6 +4,25 @@ Versions follow the `version` field in `.claude-plugin/plugin.json`; Claude
 Code offers a plugin update when that field changes. Each version is a git
 tag (`v2.2.0`) and a GitHub release with this section as its notes.
 
+## 2.8.0 — 2026-09-30
+
+- **Portable `statusLine` command.** The install skill now writes
+  `bash "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/statusline/spend-statusline.sh"`
+  literally instead of an absolute path. Claude Code runs the command through
+  a shell, so one settings file works on the host and in a devcontainer that
+  mounts `~/.claude` under another user's home. Re-running
+  `/spend-statusline:install` migrates an older absolute-path command and
+  keeps its inline knobs.
+- **macOS: no absolute bash path either.** Started under bash 3.2, the script
+  hands itself (stdin and arguments intact) to a 4.4+ bash at
+  `/opt/homebrew/bin/bash` or `/usr/local/bin/bash`. The guard's message now
+  just says `brew install bash`.
+- README: a "Sharing ~/.claude" section. A host and a container on different
+  time zones share the cache and disagree about the date for part of each
+  day; pin `CLAUDE_SPEND_TZ` inline in the shared command. The install skill
+  suggests it when told the config dir is shared.
+- The calendar, display and doctor skills read the new command form.
+
 ## 2.7.0 — 2026-09-08
 
 - **Renamed to `claude-spend-statusline`.** The plugin is `spend-statusline`,

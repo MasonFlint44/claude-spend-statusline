@@ -146,13 +146,18 @@ Re-run it after a plugin update to refresh the copy. Plugins can't set
 `statusLine` themselves and the plugin directory moves on each version
 update, which is why the install step exists.
 
-**By hand:** copy the `statusline/` directory somewhere stable, keeping its
-`config/` subfolder (the script finds it relative to itself),
+**By hand:** copy the `statusline/` directory to `~/.claude/statusline/`,
+keeping its `config/` subfolder (the script finds it relative to itself),
 then add to `~/.claude/settings.json`:
 
 ```json
-"statusLine": { "type": "command", "command": "bash /path/to/statusline/spend-statusline.sh" }
+"statusLine": { "type": "command", "command": "bash \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/statusline/spend-statusline.sh\"" }
 ```
+
+Claude Code runs the command through a shell, so the path is resolved on
+each machine rather than spelled out once. See
+[Sharing ~/.claude](#sharing-claude) if your config directory is mounted
+into devcontainers or used from more than one account.
 
 No restart needed: Claude Code picks up the change on its next refresh. The
 first render shows blanks for the spend bars; they fill within a minute once
@@ -250,9 +255,9 @@ Linux and devcontainers work as-is and are what the test suite runs on.
 Other platforms, untested so far (reports welcome):
 
 - **macOS:** needs a bash 4.4+ from Homebrew (`brew install bash`; the
-  system bash is 3.2). The install skill finds it and names it in the
-  `statusLine` command; by hand, write `/opt/homebrew/bin/bash` (Intel:
-  `/usr/local/bin/bash`) there instead of `bash`. Also `readlink -f`, which
+  system bash is 3.2). The `statusLine` command still says plain `bash`:
+  started under 3.2, the script hands itself to `/opt/homebrew/bin/bash`
+  (Intel: `/usr/local/bin/bash`). Also `readlink -f`, which
   macOS has had since 12.3. Claude Code keeps the token in the Keychain there rather than
   in the credentials file; when the file is absent the script asks the
   Keychain for the `Claude Code-credentials` item (the first read may
@@ -302,7 +307,29 @@ shows a smaller day figure. The month bar is the same everywhere.
 `off`, `none`, `no`, `0` and `false` all mean off, in any case.
 
 Set knobs in the environment Claude Code starts from, or inline in the
-`statusLine` command, e.g. `"command": "CLAUDE_SPEND_TZ=UTC bash /path/to/spend-statusline.sh"`.
+`statusLine` command, e.g. `"command": "CLAUDE_SPEND_TZ=UTC bash \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/statusline/spend-statusline.sh\""`.
+
+<a id="sharing-claude"></a>
+### Sharing ~/.claude
+
+A config directory mounted into a devcontainer (often under another user,
+`/home/you` on the host and `/home/vscode` inside) or used from several
+accounts works with one settings file, because the command above is
+resolved where it runs. Two things to know:
+
+- **Pin the spend clock.** The cache lives in the shared directory, and a
+  container on UTC disagrees with a host on local time about the date for
+  part of every day. Each side would then find the other's cache is for the
+  wrong day, refetch on every render and restart the day bar. Put the zone
+  in the shared command so both read the same clock:
+  `"command": "CLAUDE_SPEND_TZ=America/Chicago bash \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/statusline/spend-statusline.sh\""`.
+- **Tools per machine.** `jq` and `curl` must be installed in the
+  container too; `--doctor` run inside it says what is missing.
+
+An install made before 2.8.0 names the script by an absolute path, which
+breaks wherever the home directory differs. Re-run
+`/spend-statusline:install` to switch it to the portable form (inline knobs
+are kept).
 
 ## Tests
 

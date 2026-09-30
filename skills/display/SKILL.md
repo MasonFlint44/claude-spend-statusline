@@ -9,7 +9,7 @@ Every element of the statusline has a name, and `display.conf` lists the ones to
 
 ## Where the file is
 
-Read `statusLine.command` in `$CFG/settings.json` (`CFG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"`). It names the installed script, normally `$CFG/statusline/spend-statusline.sh`, may carry inline knobs such as `CLAUDE_SPEND_DISPLAY=...` before it, and names the interpreter (`bash`, or on macOS an absolute path such as `/opt/homebrew/bin/bash`). Run the listing with exactly those knobs, that interpreter and that script path:
+Read `statusLine.command` in `$CFG/settings.json` (`CFG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"`). It names the installed script, normally written as `"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/statusline/spend-statusline.sh"` (shell text that resolves to `$CFG/statusline/spend-statusline.sh`; older installs spell out an absolute path), may carry inline knobs such as `CLAUDE_SPEND_DISPLAY=...` before it, and names the interpreter (`bash`; older macOS installs name an absolute path such as `/opt/homebrew/bin/bash`). Run the listing with exactly those knobs, that interpreter and that script path:
 
 ```bash
 [KNOBS] [BASH] "$CFG/statusline/spend-statusline.sh" --display

@@ -9,7 +9,7 @@ The spend bars hide whenever any step of the usage refresh fails, and the status
 
 ## Steps
 
-1. **Find the installed script.** Read `statusLine.command` in `$CFG/settings.json` (`CFG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"`). It names the script, normally `$CFG/statusline/spend-statusline.sh`, and may carry inline knobs such as `CLAUDE_SPEND_MONTHLY_LIMIT=...` or `CLAUDE_SPEND_TZ=...` in front of it, and names the interpreter (`bash`, or on macOS an absolute path such as `/opt/homebrew/bin/bash`): use the same one. If there is no `statusLine` entry, or it names another script, the spend statusline is not installed: say so and point the user at `/spend-statusline:install`.
+1. **Find the installed script.** Read `statusLine.command` in `$CFG/settings.json` (`CFG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"`). It names the script, normally written as `"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/statusline/spend-statusline.sh"` (shell text that resolves to `$CFG/statusline/spend-statusline.sh`; older installs spell out an absolute path), and may carry inline knobs such as `CLAUDE_SPEND_MONTHLY_LIMIT=...` or `CLAUDE_SPEND_TZ=...` in front of it, and names the interpreter (`bash`; older macOS installs name an absolute path such as `/opt/homebrew/bin/bash`): use the same one. If there is no `statusLine` entry, or it names another script, the spend statusline is not installed: say so and point the user at `/spend-statusline:install`.
 
 2. **Run the doctor with exactly those knobs, that interpreter and that path**, and quote its output as printed, every line through the final `bars:` verdict, rather than summarizing it: the user needs the exact lines to match against the table below and to report if something is off.
    ```bash

@@ -33,8 +33,9 @@
 # even when the org sets a higher one), else the limit in the usage response.
 # With neither, the spend bars stay hidden.
 #
-# Wire-up (~/.claude/settings.json):
-#   "statusLine": { "type": "command", "command": "bash /path/to/spend-statusline.sh" }
+# Wire-up (~/.claude/settings.json), written literally so the shell running
+# it resolves the path on each machine or container that shares the file:
+#   "statusLine": { "type": "command", "command": "bash \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/statusline/spend-statusline.sh\"" }
 
 # printf and awk must parse "42.5" regardless of the user's locale, and the
 # --calendar listing prints English day and month names whatever the locale
@@ -42,14 +43,21 @@
 # keep only its character set and pin the numeric and time categories.
 if [ -n "${LC_ALL:-}" ]; then export LC_CTYPE="$LC_ALL"; unset LC_ALL; fi
 export LC_NUMERIC=C LC_TIME=C
-VERSION=2.7.0   # kept equal to .claude-plugin/plugin.json's version (the tests check)
+VERSION=2.8.0   # kept equal to .claude-plugin/plugin.json's version (the tests check)
 # Bash 4.4+ (mapfile -d, ${var,,}, printf %()T). This guard is the first
-# thing that runs and uses only bash 3 syntax, so an old bash (macOS ships
-# 3.2) gets one clear line instead of a syntax error further down. Every
-# code path, the statusline render included, exits here.
+# thing that runs and uses only bash 3 syntax. An old bash (macOS ships 3.2)
+# hands the run to Homebrew's bash when one is installed, stdin and arguments
+# intact, so the statusLine command can say plain `bash` on every machine that
+# shares the settings file; with none, it gets one clear line instead of a
+# syntax error further down. Every code path, the render included, passes here.
 if [ "${BASH_VERSINFO[0]}" -lt 4 ] || { [ "${BASH_VERSINFO[0]}" -eq 4 ] && [ "${BASH_VERSINFO[1]}" -lt 4 ]; }; then
+    for b in /opt/homebrew/bin/bash /usr/local/bin/bash; do
+        # shellcheck disable=SC2016  # expanded by the candidate bash, not this one
+        [ -x "$b" ] && "$b" -c '[ "${BASH_VERSINFO[0]}" -gt 4 ] || { [ "${BASH_VERSINFO[0]}" -eq 4 ] && [ "${BASH_VERSINFO[1]}" -ge 4 ]; }' 2>/dev/null \
+            && exec "$b" "${BASH_SOURCE[0]:-$0}" "$@"
+    done
     case "$(uname -s 2>/dev/null)" in
-        Darwin) echo "spend-statusline: bash $BASH_VERSION is too old, 4.4+ needed. Run: brew install bash, then /spend-statusline:install in Claude Code, which wires the new bash into the statusLine command for you." >&2 ;;
+        Darwin) echo "spend-statusline: bash $BASH_VERSION is too old, 4.4+ needed. Run: brew install bash (the statusline switches to it on its own)." >&2 ;;
         *) echo "spend-statusline: bash $BASH_VERSION is too old, 4.4+ needed." >&2 ;;
     esac
     exit 1

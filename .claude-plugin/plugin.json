@@ -1,7 +1,7 @@
 {
   "name": "spend-statusline",
   "displayName": "Spend Statusline",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "Claude Code statusline with daily + monthly spend bars read from the same numbers the /usage page shows. Install with /spend-statusline:install; edit the work week, holidays and PTO with /spend-statusline:calendar; choose which elements show with /spend-statusline:display.",
   "author": { "name": "Mason Flint" },
   "license": "MIT",
